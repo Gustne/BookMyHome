@@ -31,4 +31,8 @@
     <ProjectReference Include="..\BookMyHome.Domain\BookMyHome.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Fakes\" />
+  </ItemGroup>
+
 </Project>
