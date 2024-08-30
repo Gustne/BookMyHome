@@ -1,9 +1,20 @@
+using BookMyHome.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+// Add-Migration InitialMigration -Context BookMyHomeContext -Project BookMyHome.DatabaseMigration
+// Update-Database -Context BookMyHomeContext -Project OnionDemo.DatabaseMigration
+
+builder.Services.AddDbContext<BookMyHomeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BookMyHomeDbConnection"),
+    x => x.MigrationsAssembly("BookMyHome.DatabaseMigration")));
+
 
 var app = builder.Build();
 
