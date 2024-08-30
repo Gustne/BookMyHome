@@ -1,48 +1,59 @@
 ﻿using BookMyHome.Domain.DomainServices;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("BookMyHome.Domain.Test")]
-
 namespace BookMyHome.Domain.Enitity;
 
 
 public class Booking
 {
+    public int Id { get; protected set; }
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
 
-    internal static void AssureStartDateBeforeEndDate(DateOnly startDate, DateOnly endDate)
+
+    public Booking()
     {
-        if (!(startDate < endDate))
+        
+    }
+
+    public Booking(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+
+        AssureStartDateBeforeEndDate();
+        AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
+        AssureBookingIsNotOverlapping(bookingDomainService.GetOtherBookings(this));
+
+    }
+    protected void AssureStartDateBeforeEndDate()
+    {
+        if (!(StartDate < EndDate))
         {
             throw new ArgumentException("StartDato skal være før Slutdato");
         }
     }
-    internal static void AssureBookingIsInTheFuture(DateOnly startDate, DateOnly now)
+    protected void AssureBookingIsInTheFuture(DateOnly now)
     {
-        if (startDate < now)
+        if (StartDate < now)
         {
             throw new ArgumentException("Booking skal være i fremtiden");
         }
     }
 
-    public static Booking Create(DateOnly startDate, DateOnly endDate, ICheckBooking checkBooking, IEnumerable<Booking> otherBookings)
+    protected void AssureBookingIsNotOverlapping(IEnumerable<Booking> otherBookings)
     {
-
-        AssureStartDateBeforeEndDate(startDate, endDate);
-
-
-        AssureBookingIsInTheFuture(startDate, DateOnly.FromDateTime(DateTime.Now));
-
-        var booking = new Booking
+        foreach (var otherBooking in otherBookings)
         {
-            StartDate = startDate,
-            EndDate = endDate
-        };
-
-        // Booking må ikke overlappe med en anden booking
-        checkBooking.AssureBookingIsNotOverlapping(booking, otherBookings);
-
-        return booking;
+            if (this.StartDate <= otherBooking.EndDate && otherBooking.StartDate <= this.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
+            {
+                throw new ArgumentException("Booking Overlapper med en eksisterende Booking");
+            }
+        }
+    }
+     
+    public static Booking Create(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    {
+        return new Booking(startDate, endDate, bookingDomainService);
     }
 }

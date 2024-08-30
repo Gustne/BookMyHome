@@ -2,23 +2,17 @@
 
 namespace BookMyHome.Domain.DomainServices;
 
-public interface ICheckBooking
+public interface IBookingDomainService
 {
-    public void AssureBookingIsNotOverlapping(Booking booking, IEnumerable<Booking> otherBookings);
+    public IEnumerable<Booking> GetOtherBookings(Booking booking);
+
 }
 
-public class CheckBooking : ICheckBooking
+public class BookingDomainService : IBookingDomainService
 {
-    public void AssureBookingIsNotOverlapping(Booking booking, IEnumerable<Booking> otherBookings)
+    public IEnumerable<Booking> GetOtherBookings(Booking booking)
     {
-
-        foreach (var otherBooking in otherBookings)
-        {
-            if (booking.StartDate <= otherBooking.EndDate && otherBooking.StartDate <= booking.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
-            {
-                throw new ArgumentException("Booking Overlapper med en eksisterende Booking");
-            }
-        }
-
+        throw new NotImplementedException();
     }
 }
+
