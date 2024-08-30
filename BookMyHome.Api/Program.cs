@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 
 
 // Add-Migration InitialMigration -Context BookMyHomeContext -Project BookMyHome.DatabaseMigration
-// Update-Database -Context BookMyHomeContext -Project OnionDemo.DatabaseMigration
+// Update-Database -Context BookMyHomeContext -Project BookMyHome.DatabaseMigration
 
 builder.Services.AddDbContext<BookMyHomeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BookMyHomeDbConnection"),
     x => x.MigrationsAssembly("BookMyHome.DatabaseMigration")));
