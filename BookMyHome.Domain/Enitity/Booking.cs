@@ -1,4 +1,5 @@
 ﻿using BookMyHome.Domain.DomainServices;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace BookMyHome.Domain.Enitity;
@@ -6,10 +7,6 @@ namespace BookMyHome.Domain.Enitity;
 
 public class Booking
 {
-    public int Id { get; protected set; }
-    public DateOnly StartDate { get; protected set; }
-    public DateOnly EndDate { get; protected set; }
-
 
     public Booking()
     {
@@ -21,11 +18,22 @@ public class Booking
         StartDate = startDate;
         EndDate = endDate;
 
+        ValidateBooking(bookingDomainService);
+
+    }
+    public int Id { get; protected set; }
+    public DateOnly StartDate { get; protected set; }
+    public DateOnly EndDate { get; protected set; }
+    [Timestamp]
+    public byte[] RowVersion { get; protected set; }
+
+    protected void ValidateBooking(IBookingDomainService bookingDomainService)
+    {
         AssureStartDateBeforeEndDate();
         AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
         AssureBookingIsNotOverlapping(bookingDomainService.GetOtherBookings(this));
-
     }
+
     protected void AssureStartDateBeforeEndDate()
     {
         if (!(StartDate < EndDate))
@@ -55,5 +63,13 @@ public class Booking
     public static Booking Create(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
     {
         return new Booking(startDate, endDate, bookingDomainService);
+    }
+
+    public void Update(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+
+        ValidateBooking(bookingDomainService);
     }
 }

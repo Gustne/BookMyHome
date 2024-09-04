@@ -16,6 +16,12 @@ public class BookingRepository : IBookingRepository
         _db.SaveChanges();
     }
 
+    void IBookingRepository.UpdateBooking(Booking booking, byte[] rowVersion)
+    {
+        _db.Entry(booking).Property(nameof(booking.RowVersion)).OriginalValue = rowVersion;
+        _db.SaveChanges();
+    }
+
     Booking IBookingRepository.GetBooking(int id)
     {
         return _db.Bookings.Single(b => b.Id == id);
