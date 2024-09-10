@@ -67,17 +67,17 @@ public class BookingCommand : IBookingCommand
 
     }
 
-    public void DeleteBooking(int id, DeleteBookingDto deleteBookingDto)
+    public void DeleteBooking(DeleteBookingDto deleteBookingDto)
     {
         _unitOfWork.BeginTransaction(IsolationLevel.Serializable);
 
         try
         {
             //load
-            var booking = _repository.GetBooking(id);
+            var booking = _repository.GetBooking(deleteBookingDto.Id);
             if (booking == null)
             {
-                throw new KeyNotFoundException($"Booking with id:{id} not found");
+                throw new KeyNotFoundException($"Booking with id:{deleteBookingDto.Id} not found");
             }
             //Update
             

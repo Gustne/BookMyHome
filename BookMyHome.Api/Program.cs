@@ -32,7 +32,7 @@ app.MapGet("/Booking", (IBookingQuery query) => query.GetBookings());
 app.MapGet("/booking/{id}", (int id, IBookingQuery query) => query.GetBooking(id));
 app.MapPost("/booking", (CreateBookingDto booking, IBookingCommand command) => command.CreateBooking(booking));
 app.MapPut("/booking", (UpdateBookingDto booking, IBookingCommand command) => command.UpdateBooking(booking));
-app.MapDelete("/Delete", (int id, [FromBody] DeleteBookingDto booking, IBookingCommand command) => command.DeleteBooking(id, booking));
+app.MapDelete("/Delete", ([FromBody] DeleteBookingDto booking, IBookingCommand command) => command.DeleteBooking(booking));
 
 
 app.Run();
