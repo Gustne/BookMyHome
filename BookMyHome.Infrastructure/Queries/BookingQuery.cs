@@ -17,7 +17,7 @@ public class BookingQuery : IBookingQuery
         var booking = _db.Bookings.AsNoTracking().Single(a => a.Id == id);
         return new BookingDto
         {
-            id = booking.Id,
+            Id = booking.Id,
             StartDate = booking.StartDate,
             EndDate = booking.EndDate,
             RowVersion = booking.RowVersion
@@ -28,7 +28,7 @@ public class BookingQuery : IBookingQuery
     {
         var result = _db.Bookings.AsNoTracking().Select(b => new BookingDto
         {
-            id = b.Id,
+            Id = b.Id,
             StartDate = b.StartDate,
             EndDate = b.EndDate,
             RowVersion = b.RowVersion

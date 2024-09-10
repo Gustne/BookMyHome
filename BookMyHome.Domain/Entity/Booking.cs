@@ -18,21 +18,16 @@ public class Booking : DomainEntity
         StartDate = startDate;
         EndDate = endDate;
 
-<<<<<<< Updated upstream:BookMyHome.Domain/Enitity/Booking.cs
-=======
         ValidateBooking(bookingDomainService);
 
     }
-    public DateOnly StartDate { get; protected set; }
-    public DateOnly EndDate { get; protected set; }
 
-    protected void ValidateBooking(IBookingDomainService bookingDomainService)
+
+    private void ValidateBooking(IBookingDomainService bookingDomainService)
     {
->>>>>>> Stashed changes:BookMyHome.Domain/Entity/Booking.cs
         AssureStartDateBeforeEndDate();
         AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
         AssureBookingIsNotOverlapping(bookingDomainService.GetOtherBookings(this));
-
     }
     protected void AssureStartDateBeforeEndDate()
     {
@@ -64,16 +59,12 @@ public class Booking : DomainEntity
     {
         return new Booking(startDate, endDate, bookingDomainService);
     }
-<<<<<<< Updated upstream:BookMyHome.Domain/Enitity/Booking.cs
-=======
 
-    public void Update(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    public void Update(DateOnly startDate, DateOnly endDate, IBookingDomainService domainService)
     {
         StartDate = startDate;
         EndDate = endDate;
 
-        ValidateBooking(bookingDomainService);
+        ValidateBooking(domainService);
     }
-
->>>>>>> Stashed changes:BookMyHome.Domain/Entity/Booking.cs
 }

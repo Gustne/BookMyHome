@@ -1,29 +1,19 @@
-<<<<<<< Updated upstream
-=======
 using BookMyHome.Application;
 using BookMyHome.Application.Command;
 using BookMyHome.Application.Command.CommandDto;
 using BookMyHome.Application.Queries;
-using BookMyHome.Domain.DomainServices;
-using BookMyHome.Domain.Enitity;
 using BookMyHome.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
->>>>>>> Stashed changes
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-<<<<<<< Updated upstream
-=======
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-
->>>>>>> Stashed changes
 
 var app = builder.Build();
 
