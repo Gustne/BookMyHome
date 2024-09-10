@@ -4,23 +4,31 @@ using System.Runtime.CompilerServices;
 namespace BookMyHome.Domain.Enitity;
 
 
-public class Booking
+public class Booking : DomainEntity
 {
     public int Id { get; protected set; }
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
 
 
-    public Booking()
-    {
-        
-    }
+    protected Booking(){}
 
-    public Booking(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    private Booking(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
     {
         StartDate = startDate;
         EndDate = endDate;
 
+<<<<<<< Updated upstream:BookMyHome.Domain/Enitity/Booking.cs
+=======
+        ValidateBooking(bookingDomainService);
+
+    }
+    public DateOnly StartDate { get; protected set; }
+    public DateOnly EndDate { get; protected set; }
+
+    protected void ValidateBooking(IBookingDomainService bookingDomainService)
+    {
+>>>>>>> Stashed changes:BookMyHome.Domain/Entity/Booking.cs
         AssureStartDateBeforeEndDate();
         AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
         AssureBookingIsNotOverlapping(bookingDomainService.GetOtherBookings(this));
@@ -56,4 +64,16 @@ public class Booking
     {
         return new Booking(startDate, endDate, bookingDomainService);
     }
+<<<<<<< Updated upstream:BookMyHome.Domain/Enitity/Booking.cs
+=======
+
+    public void Update(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+
+        ValidateBooking(bookingDomainService);
+    }
+
+>>>>>>> Stashed changes:BookMyHome.Domain/Entity/Booking.cs
 }
