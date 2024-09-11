@@ -6,10 +6,10 @@ namespace BookMyHome.Domain.Enitity;
 
 public class Booking : DomainEntity
 {
-    public int Id { get; protected set; }
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
-
+    
+    public Accomodation Accomodation { get; protected set; }
 
     protected Booking(){}
 
@@ -19,7 +19,6 @@ public class Booking : DomainEntity
         EndDate = endDate;
 
         ValidateBooking(bookingDomainService);
-
     }
 
 

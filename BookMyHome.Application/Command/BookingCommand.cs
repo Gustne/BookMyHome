@@ -31,10 +31,10 @@ public class BookingCommand : IBookingCommand
 
             _unitOfWork.Commit();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _unitOfWork.Rollback();
-            throw e;
+            throw;
         }
 
 
@@ -59,10 +59,10 @@ public class BookingCommand : IBookingCommand
             _repository.UpdateBooking(booking, updateBookingDto.RowVersion);
             _unitOfWork.Commit();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _unitOfWork.Rollback();
-            throw e;
+            throw;
         }
 
     }
