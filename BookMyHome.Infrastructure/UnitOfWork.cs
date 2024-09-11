@@ -10,7 +10,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly DbContext _db;
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(DbContext db)
+    public UnitOfWork(BookMyHomeContext db)
     {
         _db = db;
     }
