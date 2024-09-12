@@ -4,6 +4,8 @@ namespace BookMyHome.Application.Queries;
 
 public interface IAccomodationQuery
 {
-    AccomodationDto GetAccomodation(int id);
-    IEnumerable<AccomodationDto> getAccomodations(int HostId);
+    AccommodationDto GetAccomodation(int id);
+    IEnumerable<AccommodationDto> getAccommodations();
+
+    IEnumerable<AccommodationDto> getAccommodations(int HostId);
 }

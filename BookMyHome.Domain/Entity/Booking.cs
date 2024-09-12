@@ -9,7 +9,7 @@ public class Booking : DomainEntity
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
     
-    public Accomodation Accomodation { get; protected set; }
+    public Accommodation Accomodation { get; protected set; }
 
     protected Booking(){}
 

@@ -2,8 +2,7 @@
 
 namespace BookMyHome.Application.Queries.QueriesDto;
 
-public record AccomodationDto
+public record AccommodationDto
 {
     public int HostId { get; set; }
-    public Host host { get; set; }
 }
