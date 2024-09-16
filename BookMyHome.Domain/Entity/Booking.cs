@@ -13,20 +13,20 @@ public class Booking : DomainEntity
 
     protected Booking(){}
 
-    private Booking(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    private Booking(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
     {
         StartDate = startDate;
         EndDate = endDate;
-
-        ValidateBooking(bookingDomainService);
+        Accomodation = accommodation;
+        ValidateBooking(accommodation.Bookings);
     }
 
 
-    private void ValidateBooking(IBookingDomainService bookingDomainService)
+    private void ValidateBooking(IEnumerable<Booking> otherBookings)
     {
         AssureStartDateBeforeEndDate();
         AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
-        AssureBookingIsNotOverlapping(bookingDomainService.GetOtherBookings(this));
+        AssureBookingIsNotOverlapping(otherBookings);
     }
     protected void AssureStartDateBeforeEndDate()
     {
@@ -54,16 +54,16 @@ public class Booking : DomainEntity
         }
     }
      
-    public static Booking Create(DateOnly startDate, DateOnly endDate, IBookingDomainService bookingDomainService)
+    public static Booking Create(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
     {
-        return new Booking(startDate, endDate, bookingDomainService);
+        return new Booking(startDate, endDate, accommodation);
     }
 
-    public void Update(DateOnly startDate, DateOnly endDate, IBookingDomainService domainService)
+    public void Update(DateOnly startDate, DateOnly endDate, IEnumerable<Booking> otherBookings)
     {
         StartDate = startDate;
         EndDate = endDate;
 
-        ValidateBooking(domainService);
+        ValidateBooking(otherBookings);
     }
 }

@@ -25,9 +25,10 @@ public class Accommodation : DomainEntity
     }
 
 
-    public void Update(Host host)
+    public void Update()
     {
-        Host = host;
+        //laver ikke noget men er implementere fordi vi skal kunne opdatere vores accomodation
+        //Det eneste ville være at skulle flytte host, det giver ikke mening at styre bookings via accomodation tror jeg 
     }
 
 }

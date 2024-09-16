@@ -8,26 +8,29 @@ namespace BookMyHome.Application.Command;
 
 public class BookingCommand : IBookingCommand
 {
-    private readonly IBookingRepository _repository;
+    private readonly IBookingRepository _bookingRepository;
+    private readonly IAccommodationRepository _accommodationRepository;
     private readonly IBookingDomainService _domainService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BookingCommand(IBookingRepository repository, IBookingDomainService domainService, IUnitOfWork unitOfWork)
+    public BookingCommand(IBookingRepository repository, IAccommodationRepository accommodationRepository, IUnitOfWork unitOfWork)
     {
-        _repository = repository;
-        _domainService = domainService;
+        _bookingRepository = repository;
+        _accommodationRepository = accommodationRepository;
         _unitOfWork = unitOfWork;
     }
 
-    void IBookingCommand.CreateBooking(CreateBookingDto BookingDto)
+    void IBookingCommand.CreateBooking(CreateBookingDto bookingDto)
     {
-        _unitOfWork.BeginTransaction(IsolationLevel.Serializable);
 
         try
         {
-            var booking = Booking.Create(BookingDto.StartDate, BookingDto.EndDate, _domainService);
+            _unitOfWork.BeginTransaction();
+            //load
+            var accommodation = _accommodationRepository.getAccommodationWithBookinngs(bookingDto.AccommodationId);
+            var booking = Booking.Create(bookingDto.StartDate, bookingDto.EndDate, accommodation);
 
-            _repository.AddBooking(booking);
+            _bookingRepository.AddBooking(booking);
 
             _unitOfWork.Commit();
         }
@@ -43,20 +46,24 @@ public class BookingCommand : IBookingCommand
 
     void IBookingCommand.UpdateBooking(UpdateBookingDto updateBookingDto)
     {
-        _unitOfWork.BeginTransaction(IsolationLevel.Serializable);
+        
 
         try
         {
+            _unitOfWork.BeginTransaction();
             //load
-            var booking = _repository.GetBooking(updateBookingDto.Id);
+            var booking = _bookingRepository.GetBooking(updateBookingDto.Id);
             if (booking == null)
             {
                 throw new KeyNotFoundException($"Booking with id:{updateBookingDto.Id} not found");
             }
+            var otherBookings = _accommodationRepository.getAccommodationWithBookinngs(booking.Id)
+                .Bookings.Where(b => b.Id != booking.Id);
+
             //Update
-            booking.Update(updateBookingDto.StartDate, updateBookingDto.EndDate, _domainService);
+            booking.Update(updateBookingDto.StartDate, updateBookingDto.EndDate, otherBookings);
             //Save
-            _repository.UpdateBooking(booking, updateBookingDto.RowVersion);
+            _bookingRepository.UpdateBooking(booking, updateBookingDto.RowVersion);
             _unitOfWork.Commit();
         }
         catch (Exception)
@@ -69,12 +76,13 @@ public class BookingCommand : IBookingCommand
 
     public void DeleteBooking(DeleteBookingDto deleteBookingDto)
     {
-        _unitOfWork.BeginTransaction(IsolationLevel.Serializable);
+        
 
         try
         {
+            _unitOfWork.BeginTransaction();
             //load
-            var booking = _repository.GetBooking(deleteBookingDto.Id);
+            var booking = _bookingRepository.GetBooking(deleteBookingDto.Id);
             if (booking == null)
             {
                 throw new KeyNotFoundException($"Booking with id:{deleteBookingDto.Id} not found");
@@ -82,13 +90,13 @@ public class BookingCommand : IBookingCommand
             //Update
             
             //Save
-            _repository.DeleteBooking(booking, deleteBookingDto.RowVersion);
+            _bookingRepository.DeleteBooking(booking, deleteBookingDto.RowVersion);
             _unitOfWork.Commit();
         }
         catch (Exception e)
         {
             _unitOfWork.Rollback();
-            throw e;
+            throw;
         }
     }
 }

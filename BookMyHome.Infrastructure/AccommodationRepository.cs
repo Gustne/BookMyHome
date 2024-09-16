@@ -1,5 +1,6 @@
 ﻿using BookMyHome.Application;
 using BookMyHome.Domain.Enitity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookMyHome.Infrastructure;
 
@@ -10,9 +11,9 @@ public class AccommodationRepository : IAccommodationRepository
     public AccommodationRepository(BookMyHomeContext db)
     {
         _db = db;
-    }
+    } 
 
-    void IAccommodationRepository.AddAccommodation(Accommodation accommodation)
+    void IAccommodationRepository.CreateAccommodation(Accommodation accommodation)
     {
         _db.Accommodations.Add(accommodation);
     }
@@ -20,7 +21,10 @@ public class AccommodationRepository : IAccommodationRepository
     {
         return _db.Accommodations.Single(a => a.Id == id);
     }
-
+    Accommodation IAccommodationRepository.getAccommodationWithBookinngs(int id)
+    {
+        return _db.Accommodations.Include(a => a.Bookings).Single(a => a.Id == id);
+    }
     void IAccommodationRepository.UpdateAccommodation(Accommodation accommodation, byte[] rowVersion)
     {
         _db.Entry(accommodation).Property(nameof(accommodation.RowVersion)).OriginalValue = rowVersion;
