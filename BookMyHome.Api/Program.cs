@@ -32,7 +32,8 @@ app.MapPut("/Accommodation", (UpdateAccommodationDto accommodation, IAccommodati
 app.MapDelete("/accommodation", ([FromBody] DeleteAccommodtationDto accommodation, IAccommodationCommand command) => command.DeleteAccommodation(accommodation));
 
 //User story: As a Host I want to see a list of bookings for each of my Accommodation
-app.MapGet("/Accommodation/{hostId}", (int hostId, IAccomodationQuery query) => query.getAccommodations(hostId));
+app.MapGet("/Bookings/{hostId}", (int hostId, IBookingQuery query) => query.GetBookings(hostId));
+
 
 app.MapGet("/booking/", (int id, IBookingQuery query) => query.GetBooking(id));
 app.MapPost("/booking", (CreateBookingDto booking, IBookingCommand command) => command.CreateBooking(booking));
@@ -46,7 +47,6 @@ app.MapDelete("/Booking", ([FromBody] DeleteBookingDto booking, IBookingCommand 
 
 
 
-app.MapGet("/Bookings/{hostId}", (int hostId, IBookingQuery query) => query.GetBookings(hostId));
 
 
 app.Run();
