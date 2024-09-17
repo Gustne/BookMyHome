@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using BookMyHome.Application.Command.CommandDto;
 using BookMyHome.Application.Helpers;
-using BookMyHome.Domain.DomainServices;
 using BookMyHome.Domain.Enitity;
 
 namespace BookMyHome.Application.Command;
@@ -10,7 +9,6 @@ public class BookingCommand : IBookingCommand
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IAccommodationRepository _accommodationRepository;
-    private readonly IBookingDomainService _domainService;
     private readonly IUnitOfWork _unitOfWork;
 
     public BookingCommand(IBookingRepository repository, IAccommodationRepository accommodationRepository, IUnitOfWork unitOfWork)
@@ -27,7 +25,7 @@ public class BookingCommand : IBookingCommand
         {
             _unitOfWork.BeginTransaction();
             //load
-            var accommodation = _accommodationRepository.getAccommodationWithBookinngs(bookingDto.AccommodationId);
+            var accommodation = _accommodationRepository.GetAccommodationWithBookinngs(bookingDto.AccommodationId);
             var booking = Booking.Create(bookingDto.StartDate, bookingDto.EndDate, accommodation);
 
             _bookingRepository.AddBooking(booking);
@@ -57,7 +55,7 @@ public class BookingCommand : IBookingCommand
             {
                 throw new KeyNotFoundException($"Booking with id:{updateBookingDto.Id} not found");
             }
-            var otherBookings = _accommodationRepository.getAccommodationWithBookinngs(booking.Id)
+            var otherBookings = _accommodationRepository.GetAccommodationWithBookinngs(booking.Id)
                 .Bookings.Where(b => b.Id != booking.Id);
 
             //Update
