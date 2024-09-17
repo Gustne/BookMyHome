@@ -4,5 +4,6 @@ namespace BookMyHome.Application.Queries.QueriesDto;
 
 public record AccommodationDto
 {
-    public int HostId { get; set; }
+    public int Id { get; set; }
+    public byte[] RowVersion { get; set; } 
 }

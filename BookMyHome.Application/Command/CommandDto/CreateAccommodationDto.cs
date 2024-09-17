@@ -2,5 +2,5 @@
 
 public class CreateAccommodationDto
 {
-    
+    public int HostId { get; set; }
 }
