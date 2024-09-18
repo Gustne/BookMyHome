@@ -58,8 +58,11 @@ public class Booking : DomainEntity
         return new Booking(startDate, endDate, accommodation);
     }
 
-    public void Update(DateOnly startDate, DateOnly endDate, IEnumerable<Booking> otherBookings)
+    public void Update(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
     {
+        // fjerner dens egen booking fra listen fordi den må jo gerne overlappe med sig selv :D
+        var otherBookings = accommodation.Bookings.Where(b => b.Id != this.Id);
+
         StartDate = startDate;
         EndDate = endDate;
 

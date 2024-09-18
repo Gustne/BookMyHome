@@ -55,11 +55,12 @@ public class BookingCommand : IBookingCommand
             {
                 throw new KeyNotFoundException($"Booking with id:{updateBookingDto.Id} not found");
             }
-            var otherBookings = _accommodationRepository.GetAccommodationWithBookinngs(booking.Id)
-                .Bookings.Where(b => b.Id != booking.Id);
+
+            var accommodation = _accommodationRepository.GetAccommodationWithBookinngs(booking.Id);
+                
 
             //Update
-            booking.Update(updateBookingDto.StartDate, updateBookingDto.EndDate, otherBookings);
+            booking.Update(updateBookingDto.StartDate, updateBookingDto.EndDate, accommodation);
             //Save
             _bookingRepository.UpdateBooking(booking, updateBookingDto.RowVersion);
             _unitOfWork.Commit();
