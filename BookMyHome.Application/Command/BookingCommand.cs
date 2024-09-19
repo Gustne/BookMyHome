@@ -26,7 +26,8 @@ public class BookingCommand : IBookingCommand
             _unitOfWork.BeginTransaction();
             //load
             var accommodation = _accommodationRepository.GetAccommodationWithBookinngs(bookingDto.AccommodationId);
-            var booking = Booking.Create(bookingDto.StartDate, bookingDto.EndDate, accommodation);
+            Guest guest = new Guest();
+            var booking = Booking.Create(bookingDto.StartDate, bookingDto.EndDate, accommodation, guest);
 
             _bookingRepository.AddBooking(booking);
 

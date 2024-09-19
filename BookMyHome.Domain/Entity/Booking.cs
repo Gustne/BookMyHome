@@ -8,16 +8,21 @@ public class Booking : DomainEntity
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
     
+    public Guest Guest { get; protected set; }
     public Accommodation Accomodation { get; protected set; }
+    public Rating Rating { get; protected set; }
+    public Review Review { get; protected set; }
 
     protected Booking(){}
 
-    private Booking(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
+    private Booking(DateOnly startDate, DateOnly endDate, Accommodation accommodation, Guest guest)
     {
         StartDate = startDate;
         EndDate = endDate;
         Accomodation = accommodation;
+        Guest = guest;
         ValidateBooking(accommodation.Bookings);
+        
     }
 
 
@@ -53,9 +58,9 @@ public class Booking : DomainEntity
         }
     }
      
-    public static Booking Create(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
+    public static Booking Create(DateOnly startDate, DateOnly endDate, Accommodation accommodation, Guest guest)
     {
-        return new Booking(startDate, endDate, accommodation);
+        return new Booking(startDate, endDate, accommodation, guest);
     }
 
     public void Update(DateOnly startDate, DateOnly endDate, Accommodation accommodation)
