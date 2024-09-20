@@ -1,8 +1,6 @@
 ﻿namespace BookMyHome.Application.Command.CommandDto;
 
-public class UpdateAccommodationDto
+public record UpdateAccommodationDto : BaseDto
 {
-    public int Id { get; set; }
-    public byte[] RowVersion { get; set; }
 
 }

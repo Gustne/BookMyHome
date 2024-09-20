@@ -1,6 +1,6 @@
 ﻿namespace BookMyHome.Application.Command.CommandDto;
 
-public class CreateAccommodationDto
+public record CreateAccommodationDto
 {
     public int HostId { get; set; }
 }

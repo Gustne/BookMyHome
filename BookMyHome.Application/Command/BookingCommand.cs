@@ -9,12 +9,14 @@ public class BookingCommand : IBookingCommand
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IAccommodationRepository _accommodationRepository;
+    private readonly IGuestRepository _guestRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public BookingCommand(IBookingRepository repository, IAccommodationRepository accommodationRepository, IUnitOfWork unitOfWork)
+    public BookingCommand(IBookingRepository repository, IAccommodationRepository accommodationRepository, IGuestRepository guestRepository, IUnitOfWork unitOfWork)
     {
         _bookingRepository = repository;
         _accommodationRepository = accommodationRepository;
+        _guestRepository = guestRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -26,7 +28,7 @@ public class BookingCommand : IBookingCommand
             _unitOfWork.BeginTransaction();
             //load
             var accommodation = _accommodationRepository.GetAccommodationWithBookinngs(bookingDto.AccommodationId);
-            Guest guest = new Guest();
+            var guest = _guestRepository.GetGuest(bookingDto.GuestId);
             var booking = Booking.Create(bookingDto.StartDate, bookingDto.EndDate, accommodation, guest);
 
             _bookingRepository.AddBooking(booking);

@@ -19,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IAccommodationRepository, AccommodationRepository>();
         services.AddScoped<IHostRepository, HostRepository>();
+        services.AddScoped<IGuestRepository, GuestRepository>();
 
         // Add-Migration InitialMigration -Context BookMyHomeContext -Project BookMyHome.DatabaseMigration
         // Update-Database -Context BookMyHomeContext -Project BookMyHome.DatabaseMigration

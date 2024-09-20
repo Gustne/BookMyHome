@@ -1,7 +1,8 @@
 ﻿namespace BookMyHome.Application.Command.CommandDto;
 
-public class DeleteAccommodtationDto
+public abstract record BaseDto
 {
     public int Id { get; set; }
     public byte[] RowVersion { get; set; }
+
 }
