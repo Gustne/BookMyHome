@@ -28,9 +28,11 @@ public class ReviewCommand : IReviewCommand
                 var review = Review.Create(reviewDto.Review);
                 booking.AddReview(review);
 
+                _unitOfWork.Commit();
             }
             else
             {
+                _unitOfWork.Rollback();
                 throw new ArgumentException("Der er allerede en Rating");
             }
         }

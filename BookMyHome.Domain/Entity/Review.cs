@@ -3,7 +3,7 @@
 public class Review : DomainEntity
 {
     public string ReviewString { get; protected set; }
-
+    public Booking Booking { get; protected set; }
     public Review(string reviewString)
     {
 

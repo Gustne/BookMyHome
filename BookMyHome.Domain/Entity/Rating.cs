@@ -6,6 +6,7 @@ public class Rating : DomainEntity
 {
     
     public int Score { get; protected set; }
+    public Booking Booking { get; protected set; }
 
     public Rating(int score)
     {
@@ -22,5 +23,6 @@ public class Rating : DomainEntity
     {
         Score = score;
     }
+
 
 }

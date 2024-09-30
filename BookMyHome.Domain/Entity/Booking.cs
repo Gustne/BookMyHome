@@ -56,8 +56,7 @@ public class Booking : DomainEntity
         foreach (var otherBooking in otherBookings)
         {
             if (this.StartDate <= otherBooking.EndDate &&
-                otherBooking.StartDate <=
-                this.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
+                otherBooking.StartDate <= this.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
             {
                 throw new ArgumentException("Booking Overlapper med en eksisterende Booking");
             }
@@ -66,7 +65,7 @@ public class Booking : DomainEntity
 
     private void EnsureBookingIsStarted(DateOnly Now)
     {
-        if (StartDate < Now)
+        if (StartDate >= Now)
         {
             throw new ArgumentException($"Din booking skal være slut før du kan give {nameof(Rating).ToLower()}");
         }

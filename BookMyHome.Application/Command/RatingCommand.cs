@@ -27,9 +27,12 @@ public class RatingCommand : IRatingCommand
                 var rating = Rating.Create(ratingDto.Score);
                 booking.AddRating(rating);
 
+
+                _unitOfWork.Commit();
             }
             else
             {
+                _unitOfWork.Rollback();
                 throw new ArgumentException("Der er allerede en Rating");
             }
         }

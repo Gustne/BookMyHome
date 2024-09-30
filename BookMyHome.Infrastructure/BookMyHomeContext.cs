@@ -10,6 +10,23 @@ public class BookMyHomeContext : DbContext
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+
+
+        modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Rating)          
+            .WithOne(r => r.Booking)        
+            .HasForeignKey<Rating>("BookingId"); 
+
+        
+        modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Review)          
+            .WithOne(r => r.Booking)        
+            .HasForeignKey<Review>("BookingId"); 
+    
+    }
+
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<Accommodation> Accommodations { get; set; }
     public DbSet<Host> Hosts { get; set; }
