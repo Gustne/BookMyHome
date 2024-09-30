@@ -4,7 +4,8 @@ namespace BookMyHome.Application;
 
 public interface IBookingRepository
 {
-    Booking GetBooking(int id); 
+    Booking GetBooking(int id);
+    Booking GetBookingWithFeedback(int id);
     void AddBooking(Booking booking);
     void UpdateBooking(Booking booking, byte[] rowVersion);
     void DeleteBooking(Booking booking, byte[] rowVersion);

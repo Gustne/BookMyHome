@@ -1,5 +1,6 @@
 ﻿using BookMyHome.Application;
 using BookMyHome.Domain.Enitity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookMyHome.Infrastructure;
 
@@ -22,6 +23,13 @@ public class BookingRepository : IBookingRepository
         return _db.Bookings.Single(b => b.Id == id);
     }
 
+    Booking IBookingRepository.GetBookingWithFeedback(int id)
+    {
+        return _db.Bookings.Include(b => b.Rating)
+            .Include(b => b.Review)
+            .Single(b => b.Id == id);
+    }
+
     void IBookingRepository.UpdateBooking(Booking booking, byte[] rowVersion)
     {
         _db.Entry(booking).Property(nameof(booking.RowVersion)).OriginalValue = rowVersion;
@@ -32,4 +40,6 @@ public class BookingRepository : IBookingRepository
         _db.Entry(booking).Property(nameof(booking.RowVersion)).OriginalValue = rowVersion;
         _db.Bookings.Remove(booking);
     }
+
+
 }

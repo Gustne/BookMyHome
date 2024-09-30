@@ -9,6 +9,9 @@ public static class DependencyInjection
     {
         services.AddScoped<IBookingCommand, BookingCommand>();
         services.AddScoped<IAccommodationCommand, AccommodationCommand>();
+        services.AddScoped<IRatingCommand, RatingCommand>();
+        services.AddScoped<IReviewCommand, ReviewCommand>();
+
         return services;
     }
 }

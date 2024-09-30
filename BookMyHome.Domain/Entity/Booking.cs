@@ -7,13 +7,15 @@ public class Booking : DomainEntity
 {
     public DateOnly StartDate { get; protected set; }
     public DateOnly EndDate { get; protected set; }
-    
+
     public Guest Guest { get; protected set; }
     public Accommodation Accomodation { get; protected set; }
     public Rating Rating { get; protected set; }
     public Review Review { get; protected set; }
 
-    protected Booking(){}
+    protected Booking()
+    {
+    }
 
     private Booking(DateOnly startDate, DateOnly endDate, Accommodation accommodation, Guest guest)
     {
@@ -22,16 +24,17 @@ public class Booking : DomainEntity
         Accomodation = accommodation;
         Guest = guest;
         ValidateBooking(accommodation.Bookings);
-        
+
     }
 
 
     private void ValidateBooking(IEnumerable<Booking> otherBookings)
     {
         AssureStartDateBeforeEndDate();
-        AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
+       // AssureBookingIsInTheFuture(DateOnly.FromDateTime(DateTime.Now));
         AssureBookingIsNotOverlapping(otherBookings);
     }
+
     protected void AssureStartDateBeforeEndDate()
     {
         if (!(StartDate < EndDate))
@@ -39,6 +42,7 @@ public class Booking : DomainEntity
             throw new ArgumentException("StartDato skal være før Slutdato");
         }
     }
+
     protected void AssureBookingIsInTheFuture(DateOnly now)
     {
         if (StartDate < now)
@@ -51,13 +55,23 @@ public class Booking : DomainEntity
     {
         foreach (var otherBooking in otherBookings)
         {
-            if (this.StartDate <= otherBooking.EndDate && otherBooking.StartDate <= this.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
+            if (this.StartDate <= otherBooking.EndDate &&
+                otherBooking.StartDate <=
+                this.EndDate) // Der er mange senarier men dette dobbeltsenarie skal være gældende for overlap
             {
                 throw new ArgumentException("Booking Overlapper med en eksisterende Booking");
             }
         }
     }
-     
+
+    private void EnsureBookingIsStarted(DateOnly Now)
+    {
+        if (StartDate < Now)
+        {
+            throw new ArgumentException($"Din booking skal være slut før du kan give {nameof(Rating).ToLower()}");
+        }
+    }
+
     public static Booking Create(DateOnly startDate, DateOnly endDate, Accommodation accommodation, Guest guest)
     {
         return new Booking(startDate, endDate, accommodation, guest);
@@ -73,4 +87,19 @@ public class Booking : DomainEntity
 
         ValidateBooking(otherBookings);
     }
+
+    public void AddRating(Rating rating)
+    {
+        EnsureBookingIsStarted(DateOnly.FromDateTime(DateTime.Now));
+        this.Rating = rating;
+    }
+
+    public void AddReview(Review review)
+    {
+        EnsureBookingIsStarted(DateOnly.FromDateTime(DateTime.Now));
+        this.Review = review;
+    }
+
+
 }
+

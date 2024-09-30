@@ -76,7 +76,7 @@ public class BookingCommand : IBookingCommand
 
     }
 
-    public void DeleteBooking(DeleteBookingDto deleteBookingDto)
+    public void DeleteBooking(DeleteDto deleteBookingDto)
     {
         
 

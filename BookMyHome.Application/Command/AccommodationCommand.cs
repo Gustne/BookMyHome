@@ -63,7 +63,7 @@ public class AccommodationCommand : IAccommodationCommand
         }
     }
 
-    void IAccommodationCommand.DeleteAccommodation(DeleteAccommodtationDto accommodationDto)
+    void IAccommodationCommand.DeleteAccommodation(DeleteDto accommodationDto)
     {
         try
         {

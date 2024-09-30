@@ -2,8 +2,7 @@
 
 namespace BookMyHome.Application.Command;
 
-public interface IRatingCommand
+public interface IReviewCommand
 {
-    void CreateRating(CreateRatingDto ratingDto);
-
+    void CreateReview(CreateReviewDto reviewDto);
 }

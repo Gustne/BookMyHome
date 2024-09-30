@@ -6,5 +6,5 @@ public interface IAccommodationCommand
 {
     void CreateAccommodation(CreateAccommodationDto accommodationDto);
     void UpdateAccommodation(UpdateAccommodationDto accommodationDto);
-    void DeleteAccommodation(DeleteAccommodtationDto accommodationDto);
+    void DeleteAccommodation(DeleteDto accommodationDto);
 }

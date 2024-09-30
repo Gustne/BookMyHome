@@ -2,6 +2,5 @@
 
 public record DeleteDto : BaseDto
 {
-    public int Id { get; set; }
-    public byte[] RowVersion { get; set; }
+
 }

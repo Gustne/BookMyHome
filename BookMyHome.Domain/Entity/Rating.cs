@@ -7,34 +7,20 @@ public class Rating : DomainEntity
     
     public int Score { get; protected set; }
 
-    public Rating(int score, Booking booking)
+    public Rating(int score)
     {
-        DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
-        EnsureBookingIsOver(todayDate, booking);
         Score = score;
     }
 
-    public static Rating Create(int score, Booking booking)
+    public static Rating Create(int score)
     {
-
-        return new Rating(score, booking);
+        return new Rating(score);
     }
 
 
-    public void Update(int score, Booking booking)
+    public void Update(int score)
     {
-        DateOnly todayDate = DateOnly.FromDateTime(DateTime.Now);
-        EnsureBookingIsOver(todayDate, booking);
         Score = score;
-    }
-
-
-    private void EnsureBookingIsOver(DateOnly Now, Booking booking)
-    {
-        if (booking.EndDate < Now)
-        {
-            throw new ArgumentException($"Din booking skal være slut før du kan give {nameof(Rating).ToLower()}");
-        }
     }
 
 }
